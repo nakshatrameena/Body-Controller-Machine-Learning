@@ -1,0 +1,36 @@
+body-controller/
+│
+├── app.py                      # Local real-time gesture control (OpenCV + PyAutoGUI)
+├── app_streamlit.py            # Web app (image upload / WebRTC)
+├── api.py                      # FastAPI backend (for online ML inference)
+│
+├── requirements.txt            # All dependencies (compatible versions)
+├── render.yaml                 # Render deployment config
+├── README.md                   # Project documentation
+│
+├── data/
+│   └── gesture_dataset.csv     # Raw dataset (42 features + label)
+│
+├── models/
+│   └── gesture_model.pkl       # Trained ML model (REQUIRED for deployment)
+│
+├── src/
+│   ├── pose_detection.py       # MediaPipe hand landmark extraction
+│   ├── gesture_recognition.py  # Feature extraction + prediction logic
+│   ├── action_mapper.py        # Maps gestures → system actions (LOCAL ONLY)
+│   ├── train_model.py          # Train ML model
+│   ├── collect_data.py         # Collect dataset using webcam
+│   └── utils.py                # Helper functions
+│
+├── services/                   # 🔥 NEW (Production layer)
+│   ├── model_service.py        # Loads model once (singleton)
+│   └── feature_engineering.py  # Shared feature extraction (IMPORTANT)
+│
+├── config/                     # 🔥 NEW (Clean architecture)
+│   └── settings.py             # Paths, constants, configs
+│
+├── tests/                      # 🔥 NEW (for reliability)
+│   └── test_model.py           # Basic testing of prediction
+│
+└── .streamlit/                 # 🔥 NEW (UI config)
+    └── config.toml             # Streamlit settings

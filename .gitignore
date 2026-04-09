@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+*.pyc
+models/*.pkl
+>>>>>>> 396cb5ef (Removed venv and added gitignore)
+data/*.csv
