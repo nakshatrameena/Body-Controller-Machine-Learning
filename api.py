@@ -17,9 +17,10 @@ app.add_middleware(
 
 model = get_model()
 
+from typing import List
 # ✅ Request schema (clean & safe)
 class GestureInput(BaseModel):
-    landmarks: list
+    landmarks: list[float]
 
 
 @app.get("/")
@@ -39,7 +40,7 @@ def predict(data: GestureInput):
         features = extract_features(landmarks)
 
         # 🔥 Correct shape for model
-        prediction = model.predict([features])
+        prediction = model.predict(features)
 
         return {"gesture": prediction[0]}
 
