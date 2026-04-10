@@ -9,8 +9,4 @@ pandas
 joblib
 protobuf==3.20.3
 requests
-<<<<<<< HEAD
 streamlit-webrtc
-=======
-streamlit-webrtc
->>>>>>> d61353e (Final deployment)
