@@ -1,29 +1,31 @@
 import streamlit as st
+from streamlit_webrtc import webrtc_streamer
 import cv2
 import numpy as np
-import requests
-import mediapipe as mp
 
-API_URL = "https://your-api-url/predict"
+from services.model_service import get_model
+model = get_model()
+from src.gesture_recognition import predict_gesture
 
-mp_hands = mp.solutions.hands
-hands = mp_hands.Hands()
+st.title("🧠 Gesture Recognition System")
 
-st.title("🧠 Gesture Recognition")
+def video_frame_callback(frame):
+    img = frame.to_ndarray(format="bgr24")
 
-img_file = st.file_uploader("Upload Image")
+    # 👉 TODO: extract landmarks using your pose_detection
+    # landmarks = extract_landmarks(img)
 
-if img_file:
-    file_bytes = np.asarray(bytearray(img_file.read()), dtype=np.uint8)
-    img = cv2.imdecode(file_bytes, 1)
+    # Dummy placeholder (replace with real features)
+    landmarks = np.zeros(42)
 
-    rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    result = hands.process(rgb)
+    gesture = predict_gesture(landmarks)
 
-    if result.multi_hand_landmarks:
-        landmarks = []
-        for lm in result.multi_hand_landmarks[0].landmark:
-            landmarks.extend([lm.x, lm.y])
+    cv2.putText(img, f"Gesture: {gesture}", (10, 40),
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
 
-        res = requests.post(API_URL, json={"landmarks": landmarks})
-        st.success(res.json()["gesture"])
+    return img
+
+webrtc_streamer(
+    key="gesture",
+    video_frame_callback=video_frame_callback
+)
