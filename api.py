@@ -27,6 +27,9 @@ class GestureInput(BaseModel):
 def home():
     return {"status": "running"}
 
+@app.get("/predict")
+def predict_get():
+    return {"message": "Use POST request for prediction"}
 
 @app.post("/predict")
 def predict(data: GestureInput):
